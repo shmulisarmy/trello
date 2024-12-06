@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Highlight.js Example</title>
+    <!-- Highlight.js Monokai Theme -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/monokai-sublime.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/xml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/golang.min.js"></script>
+    <script>
+        // Initialize Highlight.js
+        hljs.highlightAll();
+    </script>
+    <style display="block">
+        body {
+            color: blue
+        }
+    </style>
+</head>
+<body>
+    <h1>Highlight.js Test</h1>
+    <pre><code class="python">
+        print("Hello, World!")
+        for i in range(10):
+            print(i)
+    </code></pre>
+
+    <pre contenteditable="true"><code class="golang">
+        package main
+
+        func main() {
+             fmt.Println("Hello, World!")
+         }
+    </code></pre>
+
+    <h2>Some HTML</h2>
+    <pre contenteditable="true"><code class="html">
+        &lt;html&gt;
+        &lt;head&gt;
+            &lt;title&gt;Example&lt;/title&gt;
+        &lt;/head&gt;
+        &lt;body&gt;
+            &lt;h1 onclick="console.log('yo')" &gt;Hello, World!&lt;/h1&gt;
+        &lt;/body&gt;
+        &lt;/html&gt;
+    </code></pre>
+
+
+    <h1>more code stuff</h1>
+
+    <script>
+        alert("you added more code")
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+<html lang="en">
+    <script>
+        let i = 0
+    </script>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .indicator{
+            display: none
+        }
+        .loading .indicator{
+            display: block
+        }
+      
+    </style>
+    <title>Document</title>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/default.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    
+    
+    
+    
+    
+        <link rel="stylesheet" href="/static/style/style.css">
+        <script src="/static/load-logic.js"></script>
+        <script src="/static/signals.js?nocache"></script>
+        <script src="/static/main.js?v=2"></script>
+        <script src="/static/utils.js?v=2"></script>
+        <script src="/static/date-picker.js"></script>
+        <script src="/static/intersect.js"> </script>
+
+
+
+</head>
+
+<body>
+
+
+    <h1 listen-for-text>see the text change as you type</h1>
+    <input oninput="emit('text', this.value)" type="text">
+
+
+    <h1>type in the input to change the color and text</h1>
+    <h2 on_emit_color="this.textContent = event; this.style.color = event">nana</h2>
+    <input oninput="emit('color', this.value)" type="text">
+
+
+    <!-- assuming the you have a socket connection -->
+    <div listen-for-server-leaderboard></div>
+
+
+    <h1 id="search-display" listen-for-input></h1>
+    <input oninput="throttle(() => emit('search', this.value), interval='500ms', key='search')" type="text">
+
+
+        <div>
+        <h1>start-date: </h1> <h1 listen-for-start-date></h1>
+        <h1>end-date: </h1> <h1 listen-for-end-date></h1>
+    </div>
+
+    
+    <!-- the date picker web component emits start-date and end-date when their values change  -->
+    <date-picker></date-picker>
+
+
+    <h1 on_intersect="alert('you just intersected')"></h1>
+
+
+    <div hx-swap="innerHTML" on_first_intersect="replace(this, '/dash_board')">div
+        <span class="indicator" >loading...</span>
+    </div>
+
+
+    
+    <div id="todo-container"></div>
+
+    <form>
+        <label for="name">name</label>
+        <input type="text" name="name">
+        <br>
+        <label for="description">description</label>
+        <input type="text" name="description">
+        <button onclick="event.preventDefault();
+                append('/todo' 
+                , $('#todo-container'),
+                'POST', this.closest('form').to_json());">submit</button>
+    </form>
+
+
+    <div onmouseenter="prefetch('/more_user_details?user_id=2631')" class="user">
+        <button onclick="replace(this, '/more_user_details?user_id=2631', check_cache='30s')">see more</button>
+    </div>
+
+
+    
+
+
+   
+</body>
+</html>

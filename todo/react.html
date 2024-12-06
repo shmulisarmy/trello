@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/static/main.js?v=2"></script>
+    <script src="/static/signals.js?v=2"></script>
+    <script src="/static/load-logic.js?v=2"></script>
+    <script src="/static/utils.js?v=2"></script>
+    <script src="/static/intersect.js?v=2"></script>
+    <title>Document</title>
+</head>
+<body>
+
+
+    <div id="users-container">
+        <div class="user" component>
+            <h1>name: <span listen-for-name></span></h1>
+            <h1>email: <span listen-for-email></span></h1>
+            <h1>age: <span listen-for-age></span></h1>
+            <span data-name="greg" data-email="p3Vf9@example.com" 
+            onload="component.style.color = 'red'
+            emit('name', this.dataset['name'], component)"
+            >
+            
+        </span>
+    </div>
+
+
+        <div class="user" component>
+            <h1>name: <span listen-for-name></span></h1>
+            <h1>email: <span listen-for-email></span></h1>
+            <h1>age: <span listen-for-age></span></h1>
+            <span data-name="jerry" data-email="sketcher@example.com" onload="component.style.color = 'blue'
+            emit('name', this.dataset['name'], component)"
+            >
+            </span>
+    </div>
+
+        <div class="user" component>
+            <h1>name: <span listen-for-name></span></h1>
+            <h1>email: <span listen-for-email></span></h1>
+            <h1>age: <span listen-for-age></span></h1>
+            <span data-name="jon" data-email="p3Vf9@example.com" 
+            onload="component.style.color = 'orange'
+            emit('name', this.dataset['name'], component)"
+            >
+            
+        </span>
+        </div>
+    </div>
+    
+</body>
+</html>

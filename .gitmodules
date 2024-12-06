@@ -1,0 +1,3 @@
+[submodule "online-store/lightning"]
+	path = online-store/lightning
+	url = https://github.com/shmulisarmy/lightning
