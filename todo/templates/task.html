@@ -1,0 +1,9 @@
+ <div class="task"
+                {# id="task-{{task_id}}" #}
+            draggable="true"
+                ondrag="this.classList.add('dragging');dragging_task = {{created_task.id}}"
+                ondragend="this.classList.remove('dragging'); task_dragend(); post_drag_cleanup()"
+            >
+                <h3>{{created_task.name}}</h3>
+                <p>{{created_task.description}}</p>
+            </div>

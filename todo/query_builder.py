@@ -1,8 +1,15 @@
-from dataclasses import dataclass, fields, asdict
+from ast import arg
+from dataclasses import dataclass, fields, asdict, is_dataclass
+from pydantic import BaseModel
 
 
+from pickle import TRUE
 import sqlite3
 
+
+
+print("helo me")
+print("yo prove")
 
 
 
@@ -15,12 +22,16 @@ class QueryBuilder:
 
 
     def where(self, conditions, *args):
+        """this is a function"""
+        
         self.string += " where " + " and ".join(conditions)
         self.args.extend(args)
         return self
 
 
 # QueryBuilder.connection = sqlite3.connect("todos.db")
+def func():
+    print("this is a function")
 
 
     
@@ -34,23 +45,19 @@ class Update(QueryBuilder):
         self.args.extend(kwargs.values())
         return self
     
-    def __call__(self, connection):
+    def __call__(self, connection: sqlite3.Connection):
         QueryBuilder.connection = connection
 
         if not QueryBuilder.connection:
             raise("you did not provide a connection to 'QueryBuilder.connection'")
-        cursor = QueryBuilder.connection.cursor()
+        cursor: sqlite3.Cursor = QueryBuilder.connection.cursor()
         print(f"executing {self.string} with args: {self.args}")
         cursor.execute(self.string, self.args)
-        fields = [i[0] for i in cursor.description]
-        for row in cursor.fetchall():
-            for i, col in enumerate(row):
-                print(f"{fields[i]}: {col}", end="  ")
-            print()
-
+        connection.commit()
         connection.close()
-        
-        return {"rows": cursor.fetchall(), "colls": fields}
+        return cursor.rowcount
+
+
 
 
 
@@ -65,13 +72,11 @@ class Insert_into(QueryBuilder):
         print(f"in executer, {self.string = } {self.args = }")
 
         cursor: sqlite3.Cursor = connection.cursor()
-        cursor.execute(self.string, tuple(arg for arg in self.args))
+        cursor.execute(self.string, self.args)
 
         connection.commit()
         connection.close()
-        if cursor.rowcount:
-            return True
-        return False
+        return cursor.rowcount
 
         
 
@@ -79,7 +84,8 @@ class Select(QueryBuilder):
     def __init__(self, *args):
         args = list(args)
         self.return_type = "tuple"
-        class_was_passed_in: bool = len(args) == 1 and str(type(args[0])) == "<class 'type'>"
+        
+        class_was_passed_in: bool = len(args) == 1 and str(type(args[0])) in ("<class 'type'>", "<class 'function'>")
         if class_was_passed_in:
             passed_in_class = args[0]
             self.return_type = passed_in_class
@@ -93,6 +99,9 @@ class Select(QueryBuilder):
         else: 
             self.string = "select * "
         self.args = []
+
+    def order_by(self, arg):
+        self.string += f"order by {arg}"
 
     def join(self, tableName, on=None, args=[]):
         self.string += f" join {tableName} {f"on {on}" if on else ""}"
@@ -111,8 +120,7 @@ class Select(QueryBuilder):
 
 
 
-    def __call__(self, connection):
-        
+    def __call__(self, connection, fetch_amount="many"):
         QueryBuilder.connection = connection
         if not QueryBuilder.connection:
             raise("you did not provide a connection to 'QueryBuilder.connection'")
@@ -120,6 +128,11 @@ class Select(QueryBuilder):
         cursor = QueryBuilder.connection.cursor()
         cursor.execute(self.string, self.args)
         fields = [i[0] for i in cursor.description]
+
+        if fetch_amount == "one":
+            row = cursor.fetchone()
+            return {key: row[i] for i, key in enumerate(fields)}
+
         rows = cursor.fetchall()
         if self.return_type != "tuple":
             return self.to_type(rows)
@@ -145,9 +158,7 @@ class Delete(QueryBuilder):
 
         connection.commit()
         connection.close()
-        if cursor.rowcount:
-            return True
-        return False
+        return bool(cursor.rowcount)
 
 
 
@@ -178,7 +189,18 @@ class Delete(QueryBuilder):
 
 
 
-def createFrom(class_instance):
-    dict = asdict(class_instance)
-    del dict["id"]
-    return Insert_into(class_instance.__class__.__name__, **dict)
+def createFrom(class_instance) -> Insert_into:
+    # Check if the instance is a dataclass
+    if is_dataclass(class_instance):
+        data = asdict(class_instance)
+    # Check if the instance is a Pydantic BaseModel
+    elif isinstance(class_instance, BaseModel):
+        data = class_instance.dict()
+    else:
+        raise TypeError("Unsupported type. Only dataclass or Pydantic BaseModel are supported.")
+    
+    # Remove the "id" field if it exists
+    data.pop("id", None)
+    
+    # Use the class name and data to create the Insert_into statement
+    return Insert_into(class_instance.__class__.__name__, **data)

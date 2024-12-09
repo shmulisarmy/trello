@@ -1,0 +1,99 @@
+<style>
+    :root {
+        --radius: 10px;
+    }
+    main{
+        display: flex;
+        flex-wrap: wrap;
+        gap: 50px;
+    }
+    .list{
+        margin: 4px;
+        padding: 10px;
+        background-color: var(--background-color);
+        color: var(--color);
+        transition: color .4s;
+        border: 1px solid var(--color);
+        border-radius: var(--radius);
+        width: 300px;
+    }
+    .task{
+        position: relative;
+        margin: 4px;
+        margin-top: 0;
+        padding: 4px;
+        background-color: var(--background-color);
+        color: var(--color);
+        transition: color .4s;
+        border: 1px solid var(--color);
+        border-radius: var(--radius);
+
+
+        button.x{
+            display: none;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+
+        &:hover .x{
+            display: block;
+        }
+    }
+
+    .task:hover{
+        border: solid 2px var(--primary-color);
+        cursor: grab;
+    }
+    @keyframes pulse {
+        from {
+            transform: scale(1);
+        }
+        to {
+            transform: scale(1.05);
+        }
+        
+    }
+
+    .task.dragging{
+        border: solid 4px var(--primary-color);
+        animation: pulse .8s infinite;
+    }
+</style>
+
+
+
+<template id="holder">
+</template>
+<h1>{{board.name}}</h1>
+    <main>
+        {% for list in lists["rows"] %}
+        {% set list_id = list[(lists["colls"]).index("id")] %}
+        {% set list_name = list[(lists["colls"]).index("name")] %}
+        <div id="list-{{list_id}}" class="list"
+            ondragenter="dragging_list = {{list_id}}; this.appendChild(placeholder)"
+        >
+        <div id="list-{{list_id}}-container" class="container">
+            <h1>{{list_name}}</h1>
+            {% for task in tasks_by_list[list_id] %}
+            {% set task_id = task[task_cols.index("id")] %}
+            {% set task_name = task[task_cols.index("name")] %}
+            {% set task_description = task[task_cols.index("description")] %}
+            <div hx-swap="outerHTML" class="task"
+                id="task-{{task_id}}"
+            draggable="true"
+                ondrag="this.classList.add('dragging');dragging_task = {{task_id}}"
+                ondragend="this.classList.remove('dragging'); task_dragend(); post_drag_cleanup()"
+            >
+                <h3>{{task_name}}</h3>
+                <p>{{task_description}}</p>
+                <button class="x" onclick="confirm('are you sure you want to delete this task?') && replace(this.closest('.task'), '/task/{{task_id}}', 'DELETE')">delete</button>
+            </div>
+            {% endfor %}
+        </div>
+        <button hx-swap="outerHTML" onclick="replace(this, '/add_task?list_id={{list_id}}')">Add Task</button>
+        </div>
+        {% endfor %}
+    </main>
+
+

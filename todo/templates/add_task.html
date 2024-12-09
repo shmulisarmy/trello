@@ -1,0 +1,10 @@
+<form action="/add_task" method="post">
+    <input type="text" name="list_id" value={{list_id}} hidden>
+    <label for="name">name</label>
+    <input type="text" name="name" required>
+    <br>
+    <label for="description">description</label>
+    <input type="text" name="description" required>
+    <br>
+    <button onclick="const form = this.closest('form'); event.preventDefault(); append('/add_task', $('main'), 'POST', form.to_json())">add task</button>
+</form>

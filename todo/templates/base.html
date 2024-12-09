@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script defer src="/static/signals.js?nocache"></script>
+    <script defer src="/static/load-logic.js?nocache"></script>
+    <script defer src="/static/utils.js?nocache"></script>
+    <script defer src="/static/intersect.js?nocache"></script>
+    <script defer src="/static/main.js?nocache"></script>
+
+    <style>
+        nav {
+            position: sticky;
+            top: 0;
+            background: var(--background-color);
+            border-bottom: 1px solid var(--color);
+            padding: 10px;
+            display: flex;
+            gap: 10px;
+            z-index: 1;
+        }
+            :root {
+            --background-color: #f5f5f5;
+            --color: #333;
+            --primary-color: #007bff;
+        }
+    </style>
+    
+</head>
+<body>
+
+
+
+
+<nav>
+    <a href="/">Home</a>
+    <a href="/about">About</a>
+    <a href="/board">Board</a>
+    <a href="/users">Users</a>
+    <a href="/react">React</a>
+    <a href="/login">Login</a>
+    <a href="/dash_board">Dash Board</a>
+</nav>
+
+
+{% block main %}
+    
+{% endblock %}
+    
+</body>
+</html>

@@ -80,3 +80,11 @@ function append(endpoint, element, method, data){
 }
 
 
+
+
+
+function add_script(url) {
+    var script = document.createElement('script');
+    script.setAttribute('src', url);
+    document.head.appendChild(script);
+}

@@ -1,0 +1,66 @@
+{% include 'base.html' %}
+
+<style>
+    @keyframes appear {
+        from {
+            opacity: .8;
+            transform: scale(.8);
+        }
+        
+    }
+
+    .board{
+        --radius: 10px;
+            margin: 14px;
+            padding: 10px;
+            background-color: var(--background-color);
+            color: var(--color);
+            transition: color .4s;
+            border: 1px solid var(--color);
+            border-radius: var(--radius);
+            width: 300px;
+
+            animation: appear .4s;
+
+
+            .header{
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: start;
+                    align-items: center;
+                    gap: 10px;
+                    background-color: var(--background-color);
+                    color: var(--color);
+            }
+            img{
+            border-radius: var(--radius);
+
+                    width: 50px;
+                    height: 50px;
+            }
+            }
+</style>
+
+
+
+{% block main %}
+
+<main hx-swap="outerHTML" >
+    
+    {% set coll_info = boards["colls"] %}
+    
+    {% for board in boards["rows"]  %}
+    {% set name = board[coll_info.index("name")] %}
+    {% set description = board[coll_info.index("description")] %}
+    {% set id = board[coll_info.index("id")] %}
+    <div class="board">
+        <div class="header">
+            <img src="/static/images/boards/{{id}}.jpg" alt="">
+            <h1>{{name}}</h1>
+        </div>
+        <p>{{description}}</p>
+        <button onclick="replace($('main'), '/board/{{id}}'); add_script('/static/board.js?nocache')">go to {{board.name}} board</button>
+    </div>
+    {% endfor %}
+</main>
+{% endblock %}
