@@ -1,0 +1,39 @@
+:root {
+    --primary-color: #007bff;
+}
+
+.note{
+    border: 1px solid #ccc;
+    position: relative;
+    padding: 1rem;
+    margin: 1rem 0;
+    border-radius: 5px;
+    box-shadow: 0 0 3px #ccc;
+}
+
+
+button{
+    position: absolute;
+    top: 0.5rem;
+    border-radius: 4px;
+    right: 0.5rem;
+    font-size: 1.5rem;
+
+}
+
+button:disabled{
+    opacity: 0.3;
+}
+
+button:not(:disabled){
+    cursor: pointer;
+    background-color: var(--primary-color);
+}
+
+
+span{
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    display: none;
+}
