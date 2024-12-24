@@ -1,0 +1,1 @@
+names: strip down to x, math tour
