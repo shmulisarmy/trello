@@ -19,6 +19,7 @@ export type RightSide = {
   needs_to_be_applied: boolean | {
     value: number;
     operation: 'add' | 'subtract' | 'multiply' | 'divide';
+    apply_on: 'coefficient' | 'constant';
   };
 }
 

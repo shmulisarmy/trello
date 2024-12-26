@@ -1,104 +1,142 @@
-import { Show, type Component} from 'solid-js';
-import { createMutable } from 'solid-js/store';
+//this is some sample code to use to make the sandbox mode
 
-import logo from './logo.svg';
-import styles from './App.module.css';
+// import { Show, type Component} from 'solid-js';
+// import { createMutable } from 'solid-js/store';
+// import type { Equation, CancelableNumber } from './types';
+// import logo from './logo.svg';
+// import styles from './App.module.css';
+// import { rand } from './rand';
+// import { StateInfo } from './util_components/util_components';
+// import { CheatBox } from './util_components/cheat_box';
+// import needsToBeAppliedStyles from './needs_to_be_applied.module.css';
 
-function rand(min: number, max: number) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+// const equation = createMutable<Equation>({
+//   left_side: {
+//     "x-value": {value: rand(1, 10), canceled_out: false},
+//     coefficient: {value: rand(2, 10), canceled_out: false},
+//     constant: {value: rand(1, 10), canceled_out: false},
+//   },
+//   right_side: {
+//     result: {value: 'not_set'},
+//     needs_to_be_applied: false,
+//   },
+// });
 
-const equation = createMutable({
-  "x-value": {value: rand(1, 10), canceled_out: false},
-  coefficient: {value: rand(1, 10), canceled_out: true},
-  constant: {value: rand(1, 10), canceled_out: false},
-});
+// equation.right_side.result.value = equation.left_side.coefficient.value * equation.left_side["x-value"].value + equation.left_side.constant.value;
 
+// function ConstantActions({number, to_cancel}: {
+//   number: number;
+//   to_cancel: CancelableNumber;
+// }) {
+//   return <div class={styles.actionPopup}>
+//     <Show when={number < 0}>
+//       <button onClick={() => {to_cancel.canceled_out = true; equation.right_side.needs_to_be_applied = {value: number, operation: 'add'}}} class={styles.actionButton}>Add {number} to cancel this out</button>
+//       <button onclick={() => {to_cancel.value += 1}} class={styles.actionButton}>+</button>
+//     </Show>
+//     <Show when={number > 0}>
+//       <button onClick={() => {to_cancel.canceled_out = true; equation.right_side.needs_to_be_applied = {value: number, operation: 'subtract'}}} class={styles.actionButton}>apply -{number} to cancel this out</button>
+//       <button onclick={() => {to_cancel.value -= 1}} class={styles.actionButton}>-</button>
+//     </Show>
+//   </div>
+// }
 
-function NumberActions({number, to_cancel}: {number: number, to_cancel: {canceled_out: boolean}}) {
-  return <div class={styles.actionPopup}>
-    <Show when={number < 0}>
-      <button onClick={() => {to_cancel.canceled_out = true}} class={styles.actionButton}>Add {number} to cancel this out</button>
-    </Show>
-    <Show when={number > 0}>
-      <button onClick={() => {to_cancel.canceled_out = true}} class={styles.actionButton}>apply -{number} to cancel this out</button>
-    </Show>
-  </div>
-}
-
-
-
-function ProductActions({number}: {number: number}) {
-  return <div class={styles.actionPopup}>
-    <button class={styles.actionButton}>divide by {number} to cancel this out</button>
-  </div>
-}
-
-
-
-
-function CheatBox() {
-  return <div class={styles.cheatBox}>
-    <h2>Cheat Sheet</h2>
-    <p>x = {equation["x-value"].value}</p>
-  </div>
-}
-
-
-function StateInfo () {
-  return <div class={styles.stateInfo}>
-    <h2>State Info</h2>
-    <p>{JSON.stringify(equation)}</p>
-  </div>
-}
-
-
-
-const Sandbox: Component = () => {
-
+// function CoefficientActions({number, to_cancel}: {
+//   number: number;
+//   to_cancel: CancelableNumber;
+// }) {
+//   return <div class={styles.actionPopup}>
+//     <button onclick={() => {to_cancel.canceled_out = true; equation.right_side.needs_to_be_applied = {value: number, operation: 'divide'}}} class={styles.actionButton}>divide by {number} to cancel this out</button>
+//     <Show when={to_cancel.value > 0}>
+//       <button onclick={() => {to_cancel.value -= 1}} class={styles.actionButton}>-</button>
+//     </Show>
+//     <Show when={to_cancel.value < 0}>
+//       <button onclick={() => {to_cancel.value += 1}} class={styles.actionButton}>+</button>
+//     </Show>
+//   </div>
+// }
 
 
-  const result = () => equation.coefficient.value * equation["x-value"].value + equation.constant.value;
-  return (
-    <div class={styles.container}>
-      <h1 class={styles.title}>MathRefactor</h1>
-      <div class={styles.equation}>
-        <span class={styles.numberWrapper} data-value={equation.coefficient}>
-          {equation.coefficient.value}
-          <ProductActions number={equation.coefficient.value} />
-        </span>
-        x +
-        <Show when={equation.constant.canceled_out}>
-          <span class={styles.numberWrapper} data-value={equation.constant}>
-            {equation.constant.value}
-            <NumberActions to_cancel={equation.constant} number={equation.constant.value} />
-          </span> 
-        </Show>
-        <Show when={!equation.constant.canceled_out}>
-          <span class={styles.numberWrapper} data-value={equation.constant}>
-            {equation.constant.value}
-            <NumberActions to_cancel={equation.constant} number={equation.constant.value} />
-          </span> 
-        </Show>
-        = 
-        <span class={styles.numberWrapper} data-value={result}>
-          {result()}
-          <NumberActions to_cancel={equation["x-value"]} number={result()} />
-        </span>
-      </div>
-      <button onClick={() => {equation.coefficient.value += 1}}>+ coefficient</button>
-      <button onClick={() => {equation.coefficient.value -= 1}}>- coefficient</button>
 
-      <button onClick={() => {equation["x-value"].value += 1}}>+ x-value</button>
-      <button onClick={() => {equation["x-value"].value -= 1}}>- x-value</button>
 
-      <button onClick={() => {equation.constant.value += 1}}>+ constant</button>
-      <button onClick={() => {equation.constant.value -= 1}}>- constant</button>
+// function applyAction({number, operation, side}: {number: number, operation: 'add' | 'subtract' | 'divide' | 'multiply', side: 'left_side' | 'right_side'}) {
+//   console.log(number, operation, side);
+//   if (operation === 'add') {
+//     (equation[side as keyof Equation]).result.value += number;
+//   } else if (operation === 'subtract') {
+//     (equation[side as keyof Equation]).result.value -= number;
+//     console.log((equation[side as keyof Equation]).result.value);
+//     console.log("hello")
+//   } else if (operation === 'divide') {
+//     (equation[side as keyof Equation]).result.value /= number;
+//   } else if (operation === 'multiply') {
+//     (equation[side as keyof Equation]).result.value *= number;
+//   }
+//   console.log(equation);
+//   console.log(equation[side as keyof Equation]);
+//   console.log(equation[side as keyof Equation].result);
+//   console.log((equation[side as keyof Equation]).result.value);
+// }
 
-      <CheatBox />
-      <StateInfo />
-    </div>
-  );
-};
 
-export default Sandbox;
+// function NeedsToBeAppliedActions({number, operation}: {number: number, operation: 'add' | 'subtract' | 'divide' | 'multiply'}) {
+//   return (
+//     <div class={needsToBeAppliedStyles.container}>
+//       <div class={needsToBeAppliedStyles.needsToBeApplied}>
+//         <p class={needsToBeAppliedStyles.message}>
+//           Now that we did a {operation} operation on the left with {number}, we must now do a {operation} operation on the right side to keep the equation balanced
+//         </p>
+//         <button 
+//           onclick={() => {
+//             applyAction({number, operation, side: 'right_side'}); 
+//             equation.right_side.needs_to_be_applied = false;
+//           }} 
+//           class={needsToBeAppliedStyles.actionButton}
+//         >
+//           Apply {operation} {number} to right side
+//         </button>
+//       </div>
+//     </div>
+//   );
+// }
+
+
+
+
+
+
+
+// const App: Component = () => {
+//   return (
+//     <div class={styles.container}>
+//       <h1 class={styles.title}>MathRefactor</h1>
+//       <Show when={equation.right_side.needs_to_be_applied}>
+//         <NeedsToBeAppliedActions number={equation.right_side.needs_to_be_applied.value} operation={equation.right_side.needs_to_be_applied?.operation} />
+//       </Show>
+//       <div class={styles.equation}>
+//         <Show when={!equation.left_side.coefficient.canceled_out}>
+//           <span class={styles.numberWrapper} data-value={equation.left_side.coefficient}>
+//             {equation.left_side.coefficient.value}
+//             <CoefficientActions to_cancel={equation.left_side.coefficient} number={equation.left_side.coefficient.value} />
+//           </span>
+//         </Show>
+//         x
+//         <Show when={!equation.left_side.constant.canceled_out}>
+//           <span class={styles.numberWrapper} data-value={equation.left_side.constant}>
+//             + {equation.left_side.constant.value}
+//             <ConstantActions to_cancel={equation.left_side.constant} number={equation.left_side.constant.value} />
+//           </span> 
+//         </Show>
+//         = 
+//         <span class={styles.numberWrapper} data-value={equation.right_side.result.value}>
+//           {equation.right_side.result.value}
+//           <ConstantActions to_cancel={equation.left_side["x-value"]} number={equation.right_side.result.value} />
+//         </span>
+//       </div>
+//       <CheatBox info={`x = ${equation.left_side["x-value"].value}`} />
+//       <StateInfo equation={equation} />
+      
+//     </div>
+//   );
+// };
+
+// export default App;

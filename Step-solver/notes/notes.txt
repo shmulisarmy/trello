@@ -1,0 +1,5 @@
+names: strip down to x, math tour
+
+
+
+in code.png the fact that i have to name side_that_operation_happened_on as such is a sign of bad design so that im not already in a position where its clear
