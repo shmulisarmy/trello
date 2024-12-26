@@ -1,12 +1,7 @@
-export type CancelableNumber = {
-  value: number;
-  canceled_out: boolean;
-}
-
 export type LeftSide = {
-  "x-value": CancelableNumber;
-  coefficient: CancelableNumber;
-  constant: CancelableNumber;
+  "x-value": number;
+  coefficient: number;
+  constant: number;
 }
 
 

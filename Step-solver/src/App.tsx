@@ -11,9 +11,9 @@ import { otherSide } from './utils/otherSide';
 
 const equation = createMutable<Equation>({
   left_side: {
-    "x-value": {value: rand(1, 10), canceled_out: false},
-    coefficient: {value: rand(2, 10), canceled_out: false},
-    constant: {value: rand(1, 10), canceled_out: false},
+    "x-value": rand(1, 10),
+    coefficient: rand(2, 10),
+    constant: rand(1, 10),
   },
   right_side: {
     result: {value: 'not_set'},
@@ -21,7 +21,7 @@ const equation = createMutable<Equation>({
   },
 });
 
-equation.right_side.result.value = equation.left_side.coefficient.value * equation.left_side["x-value"].value + equation.left_side.constant.value;
+equation.right_side.result = equation.left_side.coefficient * equation.left_side["x-value"] + equation.left_side.constant;
 
 
 
@@ -29,67 +29,52 @@ equation.right_side.result.value = equation.left_side.coefficient.value * equati
 function applyAction({number, operation, side}: {number: number, operation: 'add' | 'subtract' | 'divide' | 'multiply', side: 'left_side' | 'right_side'}) {
   console.log(number, operation, side);
   if (operation === 'add') {
-    (equation[side as keyof Equation]).result.value += number;
+    (equation[side as keyof Equation]).result += number;
   } else if (operation === 'subtract') {
-    (equation[side as keyof Equation]).result.value -= number;
-    console.log((equation[side as keyof Equation]).result.value);
+    (equation[side as keyof Equation]).result -= number;
+    console.log((equation[side as keyof Equation]).result);
     console.log("hello")
   } else if (operation === 'divide') {
-    (equation[side as keyof Equation]).result.value /= number;
+    (equation[side as keyof Equation]).result /= number;
   } else if (operation === 'multiply') {
-    (equation[side as keyof Equation]).result.value *= number;
+    (equation[side as keyof Equation]).result *= number;
   }
   console.log(equation);
   console.log(equation[side as keyof Equation]);
   console.log(equation[side as keyof Equation].result);
-  console.log((equation[side as keyof Equation]).result.value);
 }
 
 function createRearrangement({amount, side, operation}: {amount: number, side: 'left_side' | 'right_side', operation: 'add' | 'subtract' | 'divide' | 'multiply'}) {
-  if (operation === 'add') {
-    applyAction({number: amount, operation: 'add', side: side});
-  } else if (operation === 'subtract') {
-    applyAction({number: amount, operation: 'subtract', side: side});
-  } else if (operation === 'divide') {
-    applyAction({number: amount, operation: 'divide', side: side});
-  } else if (operation === 'multiply') {
-    applyAction({number: amount, operation: 'multiply', side: side});
+  applyAction({number: amount, operation: 'multiply', side: side});
+  equation[otherSide(side)].needs_to_be_applied = {value: amount, operation};
+}
+
+
+
+
+function ConstantActions({constant_holder}: {
+  constant_holder: {constant: number};
+}) {
+  return <div class={styles.actionPopup}>
+    <Show when={constant_holder.constant < 0}>
+      <button onClick={() => {constant_holder.constant = 0; equation.right_side.needs_to_be_applied = {value: constant_holder.constant, operation: 'add'}}} class={styles.actionButton}>Add {constant_holder.constant} to cancel this out</button>
+      <button onclick={() => {constant_holder.constant += 1}} class={styles.actionButton}>+</button>
+    </Show>
+    <Show when={constant_holder.constant > 0}>
+      <button onclick={() => {constant_holder.constant = 0; equation.right_side.needs_to_be_applied = {value: constant_holder.constant, operation: 'subtract'}}} class={styles.actionButton}>Subtract {constant_holder.constant} to cancel this out</button>
+      <button onclick={() => {constant_holder.constant -= 1}} class={styles.actionButton}>-</button>
+    </Show>
+  </div>
+}
+
+function CoefficientActions({coefficient_holder}: {
+  coefficient_holder: {coefficient: number};
+}) {
+  return <div class={styles.actionPopup}>
+    <button onclick={() => {coefficient_holder.coefficient = 1; equation.right_side.needs_to_be_applied = {value: coefficient_holder.coefficient, operation: 'divide'}}} class={styles.actionButton}>divide by {coefficient_holder.coefficient} to cancel this out</button>
+    
+  </div>
   }
-}
-
-
-
-
-function ConstantActions({number, to_cancel}: {
-  number: number;
-  to_cancel: CancelableNumber;
-}) {
-  return <div class={styles.actionPopup}>
-    <Show when={number < 0}>
-      <button onClick={() => {to_cancel.canceled_out = true; equation.right_side.needs_to_be_applied = {value: number, operation: 'add'}}} class={styles.actionButton}>Add {number} to cancel this out</button>
-      <button onclick={() => {to_cancel.value += 1}} class={styles.actionButton}>+</button>
-    </Show>
-    <Show when={number > 0}>
-      <button onClick={() => {to_cancel.canceled_out = true; equation.right_side.needs_to_be_applied = {value: number, operation: 'subtract'}}} class={styles.actionButton}>apply -{number} to cancel this out</button>
-      <button onclick={() => {to_cancel.value -= 1}} class={styles.actionButton}>-</button>
-    </Show>
-  </div>
-}
-
-function CoefficientActions({number, to_cancel}: {
-  number: number;
-  to_cancel: CancelableNumber;
-}) {
-  return <div class={styles.actionPopup}>
-    <button onclick={() => {to_cancel.canceled_out = true; equation.right_side.needs_to_be_applied = {value: number, operation: 'divide'}}} class={styles.actionButton}>divide by {number} to cancel this out</button>
-    <Show when={to_cancel.value > 0}>
-      <button onclick={() => {to_cancel.value -= 1}} class={styles.actionButton}>-</button>
-    </Show>
-    <Show when={to_cancel.value < 0}>
-      <button onclick={() => {to_cancel.value += 1}} class={styles.actionButton}>+</button>
-    </Show>
-  </div>
-}
 
 
 
@@ -97,6 +82,7 @@ function CoefficientActions({number, to_cancel}: {
 
 
 function NeedsToBeAppliedActions({number, operation, side_that_operation_happened_on}: {number: number, operation: 'add' | 'subtract' | 'divide' | 'multiply', side_that_operation_happened_on: 'left_side' | 'right_side'}) {
+  console.log({number, operation, side_that_operation_happened_on});
   return (
     <div class={needsToBeAppliedStyles.container}>
       <div class={needsToBeAppliedStyles.needsToBeApplied}>
@@ -131,26 +117,25 @@ const App: Component = () => {
         <NeedsToBeAppliedActions number={equation.right_side.needs_to_be_applied.value} operation={equation.right_side.needs_to_be_applied?.operation} side_that_operation_happened_on="left_side" />
       </Show>
       <div class={styles.equation}>
-        <Show when={!equation.left_side.coefficient.canceled_out}>
+        <Show when={equation.left_side.coefficient > 1}>
           <span class={styles.numberWrapper} data-value={equation.left_side.coefficient}>
-            {equation.left_side.coefficient.value}
-            <CoefficientActions to_cancel={equation.left_side.coefficient} number={equation.left_side.coefficient.value} />
+            {equation.left_side.coefficient}
+            <CoefficientActions coefficient_holder={equation.left_side} />
           </span>
         </Show>
         x
-        <Show when={!equation.left_side.constant.canceled_out}>
+        <Show when={equation.left_side.constant > 0}>
           <span class={styles.numberWrapper} data-value={equation.left_side.constant}>
-            + {equation.left_side.constant.value}
-            <ConstantActions to_cancel={equation.left_side.constant} number={equation.left_side.constant.value} />
+            + {equation.left_side.constant}
+            <ConstantActions constant_holder={equation.left_side} number={equation.left_side.constant} />
           </span> 
         </Show>
         = 
-        <span class={styles.numberWrapper} data-value={equation.right_side.result.value}>
-          {equation.right_side.result.value}
-          <ConstantActions to_cancel={equation.left_side["x-value"]} number={equation.right_side.result.value} />
+        <span class={styles.numberWrapper} data-value={equation.right_side.result}>
+          {equation.right_side.result}
         </span>
       </div>
-      <CheatBox info={`x = ${equation.left_side["x-value"].value}`} />
+      <CheatBox info={`x = ${equation.left_side["x-value"]}`} />
       <StateInfo equation={equation} />
       
     </div>
