@@ -1,0 +1,40 @@
+.Note {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  margin: 1rem;
+  padding: 1rem;
+  width: fit-content;
+  border: 1px solid black;
+
+
+
+  
+}
+
+
+
+.top{
+  display: flex;
+  justify-content: space-between;
+
+  button {
+    --width: fit-content;
+    width: var(--width);
+    margin-bottom: .5rem;
+    padding: .5rem;
+  }
+}
+
+.untitled{
+  --width: fit-content;
+  width: var(--width);
+  margin-bottom: .5rem;
+  padding: .5rem;
+  font-weight: lighter;
+}
+
+
+textarea {
+  resize: none;
+}

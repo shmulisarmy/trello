@@ -1,0 +1,225 @@
+.App {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 36.25rem), 1fr));
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 120rem;
+    margin: 0 auto;
+  }
+  
+  
+  .cardContainer {
+    margin: 0.05em;
+    background-color: var(--background-color);
+    color: var(--color-text);
+    border-radius: var(--border-radius-large);
+    border: 0.0625rem solid var(--color-border);
+    padding: 0.625rem;
+    transition: all 0.4s ease;
+  }
+  
+  .cardContainer:hover {
+    background-color: var(--background-color-accent);
+    color: var(--color-text);
+    border: 0.0625rem solid var(--primary-color);
+    cursor: pointer;
+    transform: translateY(-0.5rem);
+    box-shadow: 0 0.5rem 1rem var(--shadow-color);
+  }
+  
+  .profileContainer {
+    color: var(--color-text-secondary);
+    padding-left: var(--indent);
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 0.625rem;
+    flex-wrap: wrap;
+  }
+  
+  .profileImage {
+    border-radius: 50%;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    margin-right: 0.625rem;
+    object-fit: cover;
+  }
+  
+  .profileName {
+    margin: 0;
+  }
+  
+  .cardContent {
+    font-size: 1.2rem;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    padding: var(--indent);
+    gap: 1rem;
+  }
+  
+  .cardContent p {
+    margin-right: 0.625rem;
+    flex: 1;
+  }
+  
+  .cardImage {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-radius: var(--border-radius-medium);
+    object-fit: cover;
+  }
+  
+  .actionButtons {
+    margin-top: 0;
+    padding-top: 0;
+    display: flex;
+    gap: 1.25rem;
+    padding: var(--indent);
+    flex-wrap: wrap;
+  }
+  
+  .actionButton {
+    background: none;
+    border: none;
+    color: var(--color-button);
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 0.3125rem;
+    transition: color 0.2s ease;
+    white-space: nowrap;
+  }
+  
+  .actionButton:hover {
+    color: var(--color-button-hover);
+  }
+  
+  .group {
+    display: flex;
+    gap: 1.25rem;
+    padding: var(--indent);
+    flex-wrap: wrap;
+  }
+  
+  .messages {
+    padding: var(--indent);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-height: 20rem;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+  }
+  
+  .messages::-webkit-scrollbar {
+    width: 0.5rem;
+  }
+  
+  .messages::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .messages::-webkit-scrollbar-thumb {
+    background-color: var(--color-border);
+    border-radius: var(--border-radius-small);
+  }
+  
+  .message {
+    background-color: var(--message-background);
+    border-radius: var(--border-radius-medium);
+    padding: 1rem;
+    transition: all 0.2s ease;
+  }
+  
+  .message:hover {
+    background-color: var(--message-hover);
+    transform: translateX(0.5rem);
+  }
+  
+  .messageProfile {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .messageImage {
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    object-fit: cover;
+  }
+  
+  .messageName {
+    color: var(--color-text-secondary);
+    margin: 0;
+    font-weight: 500;
+  }
+  
+  .messageContent {
+    margin: 0;
+    color: var(--color-text);
+    line-height: 1.5;
+  }
+  
+  .commentsHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--indent);
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 1rem;
+  }
+  
+  .commentsTitle {
+    margin: 0;
+    font-size: 1.2rem;
+    color: var(--color-text-secondary);
+  }
+  
+  @media screen and (max-width: 768px) {
+    .App {
+      padding: 1rem;
+      gap: 1rem;
+    }
+    
+    .cardContent {
+      flex-direction: column;
+    }
+    
+    .cardImage {
+      width: 100%;
+      height: auto;
+      max-height: 20rem;
+    }
+    
+    .actionButtons {
+      flex-wrap: wrap;
+      align-items: stretch;
+    }
+    
+    .group {
+      margin: 0;
+      padding: 0;
+      gap: 0;
+    }
+  }
+  
+  
+  @keyframes appear {
+    from {
+      transform: translateY(2rem);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  .appear {
+    animation: appear 0.5s ease forwards;
+  }

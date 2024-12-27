@@ -1,0 +1,49 @@
+{
+  "name": "lightning",
+  "version": "1.0.0",
+  "description": "A Solid.js component library for simple state management and reusable day-to-day components.",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "vite build",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shmulisarmy/shmulisarmy-component-library.git"
+  },
+  "author": "shmulisarmy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shmulisarmy/shmulisarmy-component-library/issues"
+  },
+  "homepage": "https://github.com/shmulisarmy/shmulisarmy-component-library#readme",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "keywords": [
+    "solid-js",
+    "component-library",
+    "state-management",
+    "frontend",
+    "components"
+  ],
+  "devDependencies": {
+    "vite": "^4.0.0",
+    "solid-js": "^1.0.0",
+    "typescript": "^4.0.0"
+  },
+  "peerDependencies": {
+    "solid-js": "^1.0.0"
+  }
+}

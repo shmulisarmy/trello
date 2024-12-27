@@ -1,0 +1,263 @@
+
+
+button{
+  transition: padding 0.3s;
+}
+button:active{
+  transform: scale(0.9);
+}
+
+body{
+  margin-top: 50px;
+  background-color: var(--background-color);
+  color: var(--color);
+}
+
+
+.recipe-list {
+  background-color: var(--background-color);
+  /* margin: 20px; */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+@media screen and (max-width: 668px) {
+  .recipe-list {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .recipe-list {
+    margin-left: 10%;
+    margin-right: 10%;
+  }
+}
+
+
+.recipe-item {
+  border: 1px solid var(--border-color);
+  margin: 10px;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: var(--background-color);
+  color: var(--color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+  transition: transform 0.3s;
+}
+
+/* .recipe-item:hover {
+  transform: scale(1.01);
+} */
+
+
+.recipe-image {
+  width: 100%;
+  aspect-ratio: 12/9;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+
+.recipe-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.info-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  color: #333;
+}
+
+.options-menu {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  font-size: 0.9rem;
+  width: 150px;
+}
+
+.options-menu p {
+  margin: 5px 0;
+  cursor: pointer;
+}
+
+.options-menu p:hover {
+  color: ;
+}
+
+
+.recipe-details {
+  margin-top: 15px;
+}
+
+
+.toggle-visibility {
+  background-color: ;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.toggle-visibility:hover {
+  background-color: #0056b3;
+}
+
+
+button {
+  padding: 8px 12px;
+  font-size: 1rem;
+  background-color: var(--primary-color);
+  color: var(--background-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.recipe-item{progress{
+  border-radius: 10px;
+  background-color: var(--color);
+}
+progress::-moz-progress-bar {
+  background-color: var(--progress-bar-color);
+}}
+
+@keyframes fade-in {
+  from {
+    transform: scale(0.4);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.ingredients-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+
+  .have-amount {
+    display: none;
+    animation: fade-in .8s ease-in-out;
+  }
+  &:hover{
+    .have-amount{
+      display: inline;
+    }
+  }
+}
+
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+
+.info{
+  padding: 10px;
+  border: 1px solid var(--border-color);
+}
+
+.planner{
+  button{
+    display: none;
+    animation: expandHeight .7s;
+    transition: .4s;
+  }
+}
+
+.planner:hover{
+  button{
+    display: inline;
+  }
+}
+
+@keyframes expandHeight {
+  from {
+    height: 0;
+  }
+  50%{
+    height: 50px;
+  }
+  to{
+    height: 40px;
+  }
+}
+
+
+
+@keyframes bounce {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.loading span:nth-child(1) {
+  animation-delay: 0s;
+}
+.loading span:nth-child(2) {
+  animation-delay: 0.05s;
+}
+.loading span:nth-child(3) {
+  animation-delay: 0.1s;
+}
+.loading span:nth-child(4) {
+  animation-delay: 0.15s;
+}
+.loading span:nth-child(5) {
+  animation-delay: 0.2s;
+}
+.loading span:nth-child(6) {
+  animation-delay: 0.25s;
+}
+.loading span:nth-child(7) {
+  animation-delay: 0.3s;
+}
+.loading span:nth-child(8) {
+  animation-delay: 0.35s;
+}
+.loading span:nth-child(9) {
+  animation-delay: 0.4s;
+}
+.loading span:nth-child(10) {
+  animation-delay: 0.45s;
+}
+.loading span{
+  display: inline-block;
+  animation: bounce 1s infinite;
+}
+
+
+
+
+
+

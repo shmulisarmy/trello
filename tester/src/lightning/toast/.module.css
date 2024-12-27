@@ -1,0 +1,103 @@
+.Toaster {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  padding: 0.25rem;
+  z-index: 9999;
+}
+
+.toast {
+  position: absolute;
+  align-items: center;
+  bottom: 0;
+  right: 0;
+  width: 25rem;
+  height: 8.75rem;
+  background-color: var(--background-color);
+  color: var(--toast-text-color);
+  transition: transform 1.2s ease;
+  padding: 0.625rem;
+  border: 0.0625rem solid var(--border-color);
+  border-radius: 0.3125rem;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  box-shadow: 0 0 0.625rem var(--toast-shadow-color);
+  overflow: hidden;
+}
+
+.toast.success {
+  color: var(--success-color);
+  border-color: var(--success-color);
+}
+
+.toast.error {
+  color: var(--error-color);
+  border-color: var(--error-color);
+}
+
+.toast.warning {
+  color: var(--warning-color);
+  border-color: var(--warning-color);
+}
+
+.toast .logo {
+  position: absolute;
+  left: 0.625rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.25rem;
+  height: 1.25rem;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.toast .text {
+  margin-left: 0.625rem;
+  text-align: left;
+  line-height: 1.4rem;
+}
+
+.toast .text h2 {
+  font-size: 1.2rem;
+  margin: 0;
+  padding: 0;
+}
+
+.toast .text p {
+  color: var(--toast-text-color);
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.toastButton {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  color: red;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.125rem;
+  display: none;
+}
+
+.toast:hover .toastButton {
+  display: block;
+}
+
+.toast progress {
+  position: absolute;
+  bottom: 0;
+  width: 80%;
+  left: 10%;
+}
+
+
+
+
+
+
+  
