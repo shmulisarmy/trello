@@ -1,0 +1,57 @@
+from searching.search_tree import SearchTree
+
+
+string = """
+    DATE 06/01/2016
+pevererrrrerrfrerereverererertreric]
+
+ZUCHINNT GREEN $4.66
+0.78kq NET @ $5.99/ka
+BANANA CAVENDISH $1.32
+0.442kq NET @ $2.99/ka
+SPECIAL $0.99
+SPECIAL $1.50
+POTATOES BRUSHED $3.97
+, 1.328kq NET @ $2.99/ka
+BROCCOLI $4.84
+0.808k9 NET @ $5.99/ka
+BRUSSEL SPROUTS $5.15
+0.322kq NET @ $15.99/ka
+SPECIAL $0.99
+GRAPES GREEN $7.03
+1.174kg NET @ $5.99/ka
+PEAS SNOW $3.27
+
+0.218kq NET @ $14.99/ka
+
+TOMATOES GRAPE
+
+LETTUCE ICEBERG
+‘SUBTOTAL
+LOYALTY
+‘SUBTOTAL
+SUBTOTAL
+
+SUBTOTAL
+TOTAL
+CASH
+CHANGE
+
+
+
+"""
+
+
+
+
+
+
+
+
+
+common_groccery_items = SearchTree(["ZUCHINNI", "BANANA", "POTATOES", "BROCCOLI", "BRUSSEL SPROUTS"])
+
+
+print(common_groccery_items.contains("zuchf"))
+print(common_groccery_items.search("ZUCHIt"))
+
