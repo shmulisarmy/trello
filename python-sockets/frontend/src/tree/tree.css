@@ -1,0 +1,138 @@
+:root {
+  --background-color: white;
+  --text-color: black;
+  --light-text-color: rgb(211, 208, 208);
+  --male-color: rgb(0, 168, 255);
+  --female-color: rgb(255, 105, 180);
+}
+
+.dark-mode {
+  --background-color: black;
+  --text-color: rgb(255, 255, 255);
+  --light-text-color: rgb(106, 106, 106);
+}
+
+.matrix-view {
+  --background-color: black;
+  --text-color: lightgreen;
+  --light-text-color: rgba(0, 128, 0, 0.449);
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: 1s;
+}
+
+.controls button {
+  display: none;
+}
+
+.person .self:hover {
+  > .controls button {
+    display: flex;
+  }
+}
+
+.children:hover:not(:has(.children:hover)) {
+}
+
+.model-overlay {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal-content {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  background-color: white;
+  opacity: 1 !important;
+}
+
+.children {
+  position: relative;
+  transition: all 1s ease;
+}
+
+.children {
+  --parent-child-connecter-color: var(--light-text-color);
+}
+
+/* .person:hover {
+  --parent-child-connecter-color: var(--text-color);
+} */
+
+.person:has(.children:hover) {
+  --parent-child-connecter-color: var(--text-color);
+  > .children:before {
+    --parent-child-connecter-color: var(--text-color);
+  }
+}
+
+.children:hover:not(:has(.children:hover)) {
+  --parent-child-connecter-color: var(--text-color);
+}
+
+.children:has(.person:not(:only-child)):before {
+  content: '';
+  position: absolute;
+  top: 0;
+  /* left: 10%; */
+  height: 2px;
+  width: 100%;
+  background-color: var(--parent-child-connecter-color);
+  border-top: 1px solid var(--parent-child-connecter-color);
+}
+.self:not(.spouse) .profile {
+  position: relative;
+  margin-top: 30px;
+}
+
+.person {
+  position: relative;
+  z-index: 1;
+}
+
+/* .spouse {
+  --profile-size: 140px;
+  position: absolute;
+  left: calc(50% + var(--profile-size));
+} */
+
+.person .self:not(.spouse) .profile:before {
+  --line-height: 50px;
+  content: '';
+  position: absolute;
+  top: calc(0px - var(--line-height));
+  left: 50%;
+  height: var(--line-height);
+  width: 2px;
+  background-color: var(--parent-child-connecter-color);
+  border-top: 1px solid var(--parent-child-connecter-color);
+}
+
+.profile {
+  border-radius: 4px;
+  /* box-shadow: 0px 2px 40px 0px var(--text-color); */
+  border: 1px solid var(--parent-child-connecter-color);
+}
+
+.profile.male {
+  color: var(--male-color);
+}
+
+.profile.female {
+  color: var(--female-color);
+}
+
+.profile {
+  position: relative;
+}
+
+.heart-icon {
+  --icon-size: 28px;
+  position: absolute;
+  top: calc(0px - var(--icon-size) / 2);
+
+  svg {
+    fill: var(--parent-child-connecter-color);
+  }
+}

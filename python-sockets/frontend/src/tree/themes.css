@@ -1,0 +1,50 @@
+Default Matrix View
+.matrix-view {
+  --background-color: #000000; /* Pure Black */
+  --text-color: #33ff33; /* Bright Green */
+  --light-text-color: rgba(0, 255, 0, 0.5); /* Transparent Green */
+  --male-color: #00ffff; /* Neon Cyan */
+  --female-color: #ff1493; /* Deep Pink */
+}
+
+/* Dark Mode */
+.dark-mode {
+  --background-color: #121212; /* Deep Charcoal */
+  --text-color: #e0e0e0; /* Soft White */
+  --light-text-color: #888888; /* Muted Gray */
+  --male-color: #1e90ff; /* Bright Blue */
+  --female-color: #ff69b4; /* Vibrant Pink */
+}
+
+/* Forest View */
+.forest-view {
+  --background-color: #013220; /* Deep Forest Green */
+  --text-color: #c3e6cb; /* Mint Green */
+  --light-text-color: #4caf50; /* Leafy Green */
+  --male-color: #5dade2; /* Sky Blue */
+  --female-color: #ff6b6b; /* Warm Red */
+}
+
+/* Cyberpunk View */
+.cyberpunk-view {
+  --background-color: #1a1a1a; /* Deep Black */
+  --text-color: #ff00ff; /* Neon Magenta */
+  --light-text-color: #00ffff; /* Neon Cyan */
+  --male-color: #ffcc00; /* Electric Yellow */
+  --female-color: #ff007f; /* Bright Fuchsia */
+}
+
+/* Toggle Button Style */
+.theme-toggle {
+  background-color: #3aaf5f; /* Softer Green */
+  color: white;
+  border: none;
+  padding: 12px 16px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.theme-toggle:hover {
+  background-color: #2f8f4a; /* Darker Green */
+}

@@ -1,0 +1,56 @@
+{"person": [{
+    "column_name": "id",
+    "data_type": "integer",
+    "character_maximum_length": null,
+    "column_default": "nextval('person_id_seq'::regclass)",
+    "is_nullable": "NO"
+  }, {
+    "column_name": "removed",
+    "data_type": "boolean",
+    "character_maximum_length": null,
+    "column_default": null,
+    "is_nullable": "YES"
+  }, {
+    "column_name": "spouse_id",
+    "data_type": "integer",
+    "character_maximum_length": null,
+    "column_default": null,
+    "is_nullable": "YES"
+  }, {
+    "column_name": "parent_id",
+    "data_type": "integer",
+    "character_maximum_length": null,
+    "column_default": null,
+    "is_nullable": "YES"
+  }, {
+    "column_name": "age",
+    "data_type": "integer",
+    "character_maximum_length": null,
+    "column_default": null,
+    "is_nullable": "NO"
+  }, {
+    "column_name": "is_descendant",
+    "data_type": "boolean",
+    "character_maximum_length": null,
+    "column_default": null,
+    "is_nullable": "YES"
+  }, {
+    "column_name": "name",
+    "data_type": "character varying",
+    "character_maximum_length": 255,
+    "column_default": null,
+    "is_nullable": "NO"
+  }, {
+    "column_name": "gender",
+    "data_type": "character varying",
+    "character_maximum_length": 50,
+    "column_default": null,
+    "is_nullable": "YES"
+  }, {
+    "column_name": "image",
+    "data_type": "text",
+    "character_maximum_length": null,
+    "column_default": null,
+    "is_nullable": "YES"
+  }]
+}

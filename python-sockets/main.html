@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<script>
+    const current_effects = [];
+    const subscriptions = new Map();
+    const sig_vals = new Map();
+   function emit(key, value, { scope = document } = {}) {
+    console.log(`emitting ${key} ${value}`);
+    set_sig(key, value);
+    scope.querySelectorAll(`[sig-${key}]`).forEach((element) => {
+        setNode(element, element.getAttribute(`sig-${key}`), key);
+    });
+    if (subscriptions.has(key)) {
+        
+        for (let i = 0; i < subscriptions.get(key).length; i++) {
+            current_effects[subscriptions.get(key)[i]]();
+        }
+    }
+}
+
+function createEffect(fn){
+    current_effects.push(fn);
+    console.log("current_effects", current_effects)
+    fn();
+    current_effects.pop();
+}
+
+
+function get_sig(key){
+    console.log("current_effects", current_effects)
+    if (current_effects.length > 0) {
+        if (!subscriptions.has(key)) {
+            subscriptions.set(key, []);
+        }
+        subscriptions.get(key).push(current_effects.length - 1);
+    }
+    return sig_vals.get(key);
+}
+function set_sig(key, value){
+    sig_vals.set(key, value);
+    if (subscriptions.has(key)) {
+        subscriptions.set(key, []);
+        for (let i = 0; i < subscriptions.get(key).length; i++) {
+            subscriptions.get(key)[i]();
+        }
+    }
+}
+
+function setNode(element, nodePath, signal_key){
+    if (nodePath == "") {
+        element.textContent = get_sig(signal_key);
+    };
+    const split_path = nodePath.split(".");
+    let current_element = element;
+    for (let index = 0; index < split_path.length-1; index++) {
+        current_element = current_element[split_path[index]];
+        
+    }
+    if (current_element[split_path[split_path.length-1]] != get_sig(signal_key)) {
+                    current_element[split_path[split_path.length-1]] = get_sig(signal_key);
+                }
+}
+
+const mutation_observer = new MutationObserver((mutations) => {
+    for (const mutation of mutations) {
+        const element = mutation.target;
+        for (const attribute of element.getAttributeNames()) {
+            if (attribute.startsWith("sig-")) {
+                console.log(`found ${attribute}`);
+                const signal_key = attribute.slice(4, attribute.length);
+                console.log(signal_key);
+                console.log(sig_vals.get(signal_key));
+                // const signal_value = mutation.getAttribute(attribute);
+                // emit(signal_key, signal_value, { scope: mutation.target });
+                
+            }
+        }
+    } 
+})
+emit('username', 'shmuli');
+emit('message', 'hello');
+
+mutation_observer.observe(document, { childList: true, subtree: true, attributes: false});
+</script>
+<body>
+    <button onclick="
+        emit('html', document.getElementById('burger').innerHTML);
+    ">get html from server</button>
+    <div >
+    total: $<span sig-cart_price="textContent"></span>
+    </div>
+    <div id="items">
+        <span sig-cart-burgers=></span> burgers -
+        <span sig-cart-steak=></span> steak -
+    </div>
+    <div sig-html="innerHTML"></div>
+    <div id="menu">
+        <div id="burger" style="border: 1px solid black; padding: 10px; width: fit-content; border-radius: 10px;" class="item">
+            <h1>burger</h1>
+            <p>price: $10</p>
+            <button
+            onclick="emit('cart-burgers', sig_vals.get('cart-burgers')+1)"
+            style="cursor: pointer; border: 1px solid black; padding: 10px; width: fit-content; border-radius: 10px; background-color: black; color: white;">Add to cart</button>
+        </div>
+        <div style="border: 1px solid black; padding: 10px; width: fit-content; border-radius: 10px;" class="item">
+            <h1>steak</h1>
+            <p>price: $20</p>
+            <button
+            onclick="emit('cart-steak', sig_vals.get('cart-steak')+1)"
+            style="cursor: pointer; border: 1px solid black; padding: 10px; width: fit-content; border-radius: 10px; background-color: black; color: white;">Add to cart</button>
+        </div>
+    </div>
+
+ <script>
+emit('cart_price', 10);
+emit('cart-burgers', 2);
+emit('cart-steak', 0);
+ </script>
+</body>
+</html>

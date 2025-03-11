@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="h.js"></script>
+    <script>
+        HTMLElement.prototype.swap = function(endpoint, httpMethod, swapStyle) {
+            issueAjaxRequest(httpMethod || 'get', endpoint, this, 'click', {}, swapStyle || 'outerHTML') 
+        };
+        HTMLElement.prototype.push = function(endpoint, httpMethod, swapStyle) {
+            issueAjaxRequest(httpMethod || 'post', endpoint, this, 'click', {}, swapStyle || 'afterend') 
+        };
+    function last(list) { return list[list.length - 1]; }
+    function $(selector) { return document.querySelector(selector); } function $A(selector) { return document.querySelectorAll(selector); }</script>
+    
+</head>
+<body>
+    <h1 data-last-updated="11/11/2024:2:30">heigh score: 101</h1>
+    <main>
+        <div refresher-url="post.html"
+        refresher-when-change-in="hour"
+        data-description="always upto date" class="post">
+            <img src="" alt="">
+            <h1>post</h1>
+            <button>read more</button>
+        </div>
+        <div class="user">
+            <h1>shmuli</h1>
+            <button 
+            onclick="$('main').push('user.html', 'get')">call him</button>
+        </div>
+        <div class="next"></div>
+
+
+        <div id="users">
+            <div id="1" class="user"></div>
+            <div id="2" class="user"></div>
+            <div id="3" class="user"></div>
+            <div id="5" class="user"></div>
+            <div id="6" class="user"></div>
+        </div>
+    </main>
+    
+
+    <script>
+       function fillMissingElements(users, orderMatters, compareFn){
+        let ids = users.children.map(div => div.id);
+        if (orderMatters) {
+            users.children.sort(compareFn);
+        }
+       }
+    </script>
+</body>
+</html>
