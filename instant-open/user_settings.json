@@ -1,0 +1,53 @@
+{
+    "application_map": {
+        "e": "Windsurf",
+        "t": "Trello",
+        "i": "Terminal",
+        "f": "Firefox",
+        "v": "Voice Memo",
+        "c": "Visual Studio Code",
+        "d": "Discord",
+        "z": "zoom.us",
+        "p": "Postman",
+        "s": "Spotify",
+        "m": "Messages",
+        "x": "Xcode",
+        "b": "Brave Browser",
+        "g": "Google Chrome",
+        "l": "Clock",
+        "j": "JetBrains Toolbox",
+        "k": "Krita",
+        "w": "WhatsApp",
+        "h": "HandBrake",
+        "q": "qBittorrent",
+        "u": "Unity Hub",
+        "0": "obsidian"
+    },
+    "site_map": {
+        "g": "github.com/",
+        "y": "youtube.com",
+        "t": "typingclub.com",
+        "f": "facebook.com",
+        "i": "instagram.com",
+        "l": "linkedin.com",
+        "r": "reddit.com",
+        "h": "hackerrank.com",
+        "e": "leetcode.com",
+        "n": "nytimes.com",
+        "m": "mail.google.com",
+        "d": "duckduckgo.com",
+        "w": "wikipedia.org",
+        "z": "zoom.us",
+        "c": "coursera.org",
+        "b": "bitbucket.org",
+        "x": "x.com",
+        "a": "khanacademy.org",
+        "u": "udemy.com",
+        "q": "quip.com",
+        "p": "spotify.com"
+    },
+    "typing_speed": "fast",
+    "extensions": [
+        "mtl"
+    ]
+}
