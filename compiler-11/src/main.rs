@@ -2,9 +2,19 @@ use core::str;
 
 
 
+#[derive(Debug, PartialEq, Clone)]
+enum TokenType {
+    Identifier,
+    Number,
+    String,
+    Punctuation,
+    Operator,
+    Keyword,
+}
+
 #[derive(Debug)]
 struct  Token {
-    type_ : String,
+    type_ : TokenType,
     value : String
 }
 
@@ -23,16 +33,29 @@ struct  FunctionCall{
 }
 
 
+#[derive(Debug, PartialEq)]
+enum DataType {
+    Int,
+    String,
+}
+
 #[derive(Debug)]
 struct  Variable{
     name : String,
-    type_ : String,
+    type_ : DataType,
     value : Option<Expression>
 }
 
 
 static OPERATOR_CHARS : &str = "+-*/|=<>";
 static PUNCTUATION_CHARS : &str = "()[]{},";
+
+static KEYWORDS: Lazy<HashMap<&'static str, TokenType>> = Lazy::new(|| {
+    let mut hm = HashMap::new();
+    hm.insert("var", TokenType::Keyword);
+    hm
+});
+
 
 impl Tokenizer {
     fn new(source : String) -> Tokenizer {
@@ -101,23 +124,27 @@ impl Tokenizer {
             return None;
         }
         if self.cur_char().is_alphabetic(){
-            return Some(Token { type_: "IDENTIFIER".to_string(), value: self.next_word() });
+            let word = self.next_word();
+            if let Some(keyword) = KEYWORDS.get(word.as_str()) {
+                return Some(Token { type_: keyword.clone(), value: word });
+            }
+            return Some(Token { type_: TokenType::Identifier, value: word });
         }
         if self.cur_char().is_numeric(){
-            return Some(Token { type_: "NUMBER".to_string(), value: self.next_number() });
+            return Some(Token { type_: TokenType::Number, value: self.next_number() });
         }
         if self.cur_char() == '"' {
-            return Some(Token { type_: "STRING".to_string(), value: self.next_string() });
+            return Some(Token { type_: TokenType::String, value: self.next_string() });
         }
         if PUNCTUATION_CHARS.contains(self.cur_char()) {
             let this_char = self.cur_char();
             self.index += 1;
-            return Some(Token { type_: "PUNCTUATION".to_string(), value: this_char.to_string() });
+            return Some(Token { type_: TokenType::Punctuation, value: this_char.to_string() });
         }
         if OPERATOR_CHARS.contains(self.cur_char()) {
             let this_char = self.cur_char();
             self.index += 1;
-            return Some(Token { type_: "OPERATOR".to_string(), value: this_char.to_string() });
+            return Some(Token { type_: TokenType::Operator, value: this_char.to_string() });
         }
         match self.cur_char() {
             ' ' => {
@@ -128,22 +155,22 @@ impl Tokenizer {
         }
         
     }
-    fn expect(&mut self, type_ : &str) -> Token {
+    fn expect(&mut self, type_ : TokenType) -> Token {
         let token = self.next().unwrap();
         if token.type_ != type_ {
-            panic!("Expected {} got {}", type_, token.type_);
+            panic!("Expected {:?} got {:?}", type_, token.type_);
         }
         token
     }
 
     fn expect_punctuation(&mut self, value : char) -> Token {
         let token = self.next().unwrap();
-        if token.type_ != "PUNCTUATION" || token.value.len() != 1 || token.value.chars().nth(0).unwrap() != value {
+        if token.type_ != TokenType::Punctuation || token.value.len() != 1 || token.value.chars().nth(0).unwrap() != value {
             panic!("Expected {} got {}", value, token.value);
         }
         token
     }
-    fn optionally_expect(&mut self, type_ : &str) -> Option<String> {
+    fn optionally_expect(&mut self, type_ : TokenType) -> Option<String> {
         let position_at_start = self.index;
         let token = self.next();
         if token.is_none() {
@@ -184,7 +211,7 @@ impl Tokenizer {
             return false;
         }
         let token = token.unwrap();
-        if token.type_ != "PUNCTUATION" {
+        if token.type_ != TokenType::Punctuation {
             self.index = position_at_start;
             return false;
         }
@@ -200,6 +227,7 @@ impl Tokenizer {
 
 
 }
+
 
 
 use std::{collections::HashMap, usize};
@@ -245,7 +273,7 @@ impl Parser {
 
 
     fn parse_var(&mut self) -> Variable {
-        let name = self.tokenizer.expect("IDENTIFIER");
+        let name = self.tokenizer.expect(TokenType::Identifier);
         let type_ = self.parse_type();
         if self.tokenizer.optionally_expect_string("=") {
             let value = self.parse_expression(0);
@@ -282,20 +310,24 @@ impl Parser {
     
 
     fn parse_function_call(&mut self) -> FunctionCall {
-        let name = self.tokenizer.expect("IDENTIFIER");
+        let name = self.tokenizer.expect(TokenType::Identifier);
         let args = self.collect_expression_list('(', ')');
         return FunctionCall { name: name.value, args };
     }
     fn parse_expression(&mut self, left_pull : u32) -> Expression {
         let mut left: Expression = self.parse_expression_piece();
-        while self.tokenizer.in_range() && let Some(token) = self.tokenizer.peek() {
-            if token.type_ == "OPERATOR" && *OPERATOR_PRECEDENCE.get(token.value.as_str()).unwrap() > left_pull {
-                self.tokenizer.next();
-                left = Expression::OperatorUse(OperatorUse {
-                    operator: token.value.clone(),
-                    left: Box::new(left),
-                    right: Box::new(self.parse_expression(*OPERATOR_PRECEDENCE.get(token.value.as_str()).unwrap())),
-                });
+        while self.tokenizer.in_range() {
+            if let Some(token) = self.tokenizer.peek() {
+                if token.type_ == TokenType::Operator && *OPERATOR_PRECEDENCE.get(token.value.as_str()).unwrap() > left_pull {
+                    self.tokenizer.next();
+                    left = Expression::OperatorUse(OperatorUse {
+                        operator: token.value.clone(),
+                        left: Box::new(left),
+                        right: Box::new(self.parse_expression(*OPERATOR_PRECEDENCE.get(token.value.as_str()).unwrap())),
+                    });
+                } else {
+                    break;
+                }
             } else {
                 break;
             }
@@ -303,19 +335,24 @@ impl Parser {
         return left;
         
     }
-    fn parse_type(&mut self) -> String {
-        let token = self.tokenizer.expect("IDENTIFIER");
-        return token.value;
+    fn parse_type(&mut self) -> DataType {
+        let token = self.tokenizer.expect(TokenType::Identifier);
+        match token.value.as_str() {
+            "int" => DataType::Int,
+            "string" => DataType::String,
+            _ => panic!("Unknown type {}", token.value)
+        }
     }
 
 
 }   
 fn main() {
     let mut p = Parser::new("var num int = b * 9 + a(a, 3*0,)".to_string());
-    p.tokenizer.expect("IDENTIFIER");
+    p.tokenizer.expect(TokenType::Keyword);
     let var = p.parse_var();
     println!("{:?}", var);
-
-
-
 }
+
+#[cfg(test)]
+mod tests;
+
