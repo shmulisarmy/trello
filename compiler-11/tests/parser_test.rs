@@ -25,7 +25,6 @@ fn test_parse_function() {
     assert_eq!(function.args[1].name, "b");
     assert_eq!(function.args[1].type_, DataType::Int);
     assert_eq!(function.return_type, DataType::Int);
-    println!("{:?}", function.body);
     assert_eq!(function.body.len(), 1);
 }
 

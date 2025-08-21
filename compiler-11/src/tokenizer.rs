@@ -228,20 +228,7 @@ impl Tokenizer {
         return false;
     }
 
-    // pub fn optionally_expect_keyword_of(&mut self, value: &str) -> bool {
-    //     let position_at_start = self.index;
-    //     let token = self.next();
-    //     if token.is_none() {
-    //         self.index = position_at_start;
-    //         return false;
-    //     }
-    //     let token = token.unwrap();
-    //     if token.type_ != TokenType::Keyword || token.value != value {
-    //         self.index = position_at_start;
-    //         return false;
-    //     }
-    //     true
-    // }
+
 
 
 }
