@@ -1,6 +1,6 @@
 use crate::{
     ast::{Expression, FunctionCall, FunctionDef, OperatorUse, ValidInFunctionBody, Variable},
-    data_type::DataType,
+    data_type::{type_from, DataType},
     lexer::{
         token::{self, TokenType},
         tokenizer::Tokenizer,
@@ -11,18 +11,24 @@ use std::collections::HashMap;
 
 static OPERATOR_PRECEDENCE: Lazy<HashMap<&'static str, u32>> = Lazy::new(|| {
     let mut hm = HashMap::new();
-    hm.insert("+", 1);
-    hm.insert("-", 1);
-    hm.insert("*", 2);
-    hm.insert("/", 2);
-    hm.insert("+=", 1);
-    hm.insert("-=", 1);
-    hm.insert("*=", 2);
-    hm.insert("/=", 2);
-    hm.insert("|", 3);
-    hm.insert("==", 4);
-    hm.insert("!=", 4);
-    hm.insert("=", 5);
+    hm.insert("=", 1);
+    hm.insert("+", 2);
+    hm.insert("-", 2);
+    hm.insert("*", 3);
+    hm.insert("/", 3);
+    hm.insert("+=", 2);
+    hm.insert("-=", 2);
+    hm.insert("*=", 3);
+    hm.insert("/=", 3);
+    hm.insert("|", 4);
+    hm.insert("==", 5);
+    hm.insert("!=", 5);
+    hm.insert(">=", 6);
+    hm.insert("<=", 6);
+    hm.insert(">", 6);
+    hm.insert("<", 6);
+    hm.insert("&&", 7);
+    hm.insert("||", 8);
     hm
 });
 
@@ -273,11 +279,8 @@ impl Parser {
     }
     fn parse_type(&mut self) -> DataType {
         let token = self.tokenizer.expect(TokenType::Identifier);
-        match token.value.as_str() {
-            "int" => DataType::Int,
-            "string" => DataType::String,
-            "bool" => DataType::Bool,
-            _ => panic!("Unknown type {}", token.value),
-        }
+        type_from(token.value)
     }
 }
+
+

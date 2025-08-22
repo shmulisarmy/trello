@@ -8,6 +8,16 @@ pub enum DataType {
     Bool,
 }
 
+
+pub fn type_from(value: String) -> DataType {
+    return match value.as_str() {
+        "int" => DataType::Int,
+        "string" => DataType::String,
+        "bool" => DataType::Bool,
+        _ => panic!("Unknown type {}", value),
+    }
+}
+
 impl fmt::Display for DataType {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
