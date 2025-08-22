@@ -19,3 +19,4 @@
 
 
 - [x] put ast in its own module with a file for the core ast structure with other files for other concerns like display and so on. same idea for the tokenizer where it gets its own module with a file for the core tokenizer logic and other files for other concerns like token and token type
+
