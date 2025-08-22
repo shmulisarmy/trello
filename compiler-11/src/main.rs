@@ -28,7 +28,6 @@ fn main() {
     "#;
 
     let mut p = Parser::new(code.to_string());
-    
 
     p.tokenizer.eat_lines();
     // Parse and print the variable declaration
@@ -39,7 +38,7 @@ fn main() {
     println!();
 
     p.tokenizer.eat_lines();
-    
+
     // Parse and print the function definition
     p.tokenizer.expect(TokenType::Keyword);
     let func = p.parse_function();

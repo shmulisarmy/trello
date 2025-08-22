@@ -1,3 +1,4 @@
+use crate::ast::{AstComparable, ComparisonError};
 use std::fmt;
 
 #[derive(Debug, PartialEq, Clone)]
@@ -29,8 +30,47 @@ impl fmt::Display for Token {
     }
 }
 
+impl AstComparable for Token {
+    fn compare(&self, other: &Self) -> Result<(), Vec<ComparisonError>> {
+        let mut errors = Vec::new();
+
+        if self.type_ != other.type_ {
+            errors.push(ComparisonError::MismatchedValues(format!(
+                "Token type mismatch: expected {:?}, got {:?}",
+                self.type_, other.type_
+            )));
+        }
+
+        if self.value != other.value {
+            errors.push(ComparisonError::MismatchedValues(format!(
+                "Token value mismatch: expected '{}', got '{}'",
+                self.value, other.value
+            )));
+        }
+
+        if errors.is_empty() {
+            Ok(())
+        } else {
+            Err(errors)
+        }
+    }
+}
+
+impl AstComparable for TokenType {
+    fn compare(&self, other: &Self) -> Result<(), Vec<ComparisonError>> {
+        if self == other {
+            Ok(())
+        } else {
+            Err(vec![ComparisonError::MismatchedValues(format!(
+                "Expected token type '{:?}', but got '{:?}'",
+                self, other
+            ))])
+        }
+    }
+}
+
 #[derive(Debug)]
 pub struct Token {
-    pub type_ : TokenType,
-    pub value : String
+    pub type_: TokenType,
+    pub value: String,
 }

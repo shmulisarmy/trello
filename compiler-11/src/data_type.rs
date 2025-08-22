@@ -5,6 +5,7 @@ pub enum DataType {
     Int,
     String,
     None,
+    Bool,
 }
 
 impl fmt::Display for DataType {
@@ -12,6 +13,7 @@ impl fmt::Display for DataType {
         match self {
             DataType::Int => write!(f, "int"),
             DataType::String => write!(f, "string"),
+            DataType::Bool => write!(f, "bool"),
             DataType::None => write!(f, "none"),
         }
     }

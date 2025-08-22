@@ -9,4 +9,9 @@
 
 
 
-- [] as of now, when showing an ast it gets displayed as something like: "{ name: "num", type_: Int, value: Some(OperatorUse(OperatorUse { left: OperatorUse(OperatorUse { left: Token(Token { type_: Identifier, value: "b" }), operator: "*", right: Token(Token { type_: Number, value: "9" }) }), operator: "+", right: FunctionCall(FunctionCall { name: "a", args: [Token(Token { type_: Identifier, value: "a" }), OperatorUse(OperatorUse { left: Token(Token { type_: Number, value: "3" }), operator: "*", right: Token(Token { type_: Number, value: "0" }) })] }) })) }", i would like if displaying an ast was alot neater, weather you overide the normal display for each ast node or you made a display function that took in a depth and so on
+- [x] as of now, when showing an ast it gets displayed as something like: "{ name: "num", type_: Int, value: Some(OperatorUse(OperatorUse { left: OperatorUse(OperatorUse { left: Token(Token { type_: Identifier, value: "b" }), operator: "*", right: Token(Token { type_: Number, value: "9" }) }), operator: "+", right: FunctionCall(FunctionCall { name: "a", args: [Token(Token { type_: Identifier, value: "a" }), OperatorUse(OperatorUse { left: Token(Token { type_: Number, value: "3" }), operator: "*", right: Token(Token { type_: Number, value: "0" }) })] }) })) }", i would like if displaying an ast was alot neater, weather you overide the normal display for each ast node or you made a display function that took in a depth and so on
+
+
+
+
+- [ ] add more parser tests that assert the entire structure of ast nodes at a time instead of a bunch of individual asserts
