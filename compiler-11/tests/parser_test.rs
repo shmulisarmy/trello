@@ -1,11 +1,11 @@
 use compiler_11::{
     ast::{
-        AstComparable, ComparisonError, Expression, FunctionCall, FunctionDef, OperatorUse,
+        AstComparable, Expression, FunctionCall, FunctionDef, OperatorUse,
         ValidInFunctionBody, Variable,
     },
     data_type::DataType,
+    lexer::token::{Token, TokenType},
     parser::Parser,
-    token::{Token, TokenType},
 };
 
 // Helper macro to assert equality with detailed error reporting

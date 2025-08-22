@@ -1,8 +1,10 @@
 use crate::{
     ast::{Expression, FunctionCall, FunctionDef, OperatorUse, ValidInFunctionBody, Variable},
     data_type::DataType,
-    token::{self, TokenType},
-    tokenizer::Tokenizer,
+    lexer::{
+        token::{self, TokenType},
+        tokenizer::Tokenizer,
+    },
 };
 use once_cell::sync::Lazy;
 use std::collections::HashMap;

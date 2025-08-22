@@ -1,6 +1,8 @@
 use colored::*;
-use compiler_11::parser::Parser;
-use compiler_11::token::TokenType;
+use compiler_11::{
+    lexer::token::TokenType,
+    parser::Parser,
+};
 
 // Enable colored output
 use std::io::Write;
